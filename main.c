@@ -3,13 +3,16 @@
 #include <string.h>
 #include "sorting.h"
 #include <time.h>
+#include <unistd.h>
+
 
 // Necessário esvaziar os arquivos no inicio da execução
 void clean_files() {
     char* sorting_algorithms[] = {"bubble", "selection", "insertion", "quicksort"};
     for (int i = 0; i < 4; i++) {
         char filename[30];
-        sprintf(filename, "../executions/%s.bin", sorting_algorithms[i]);
+
+        sprintf(filename, "./executions/%s.bin", sorting_algorithms[i]);
         FILE *file = fopen(filename, "w");
         fclose(file);
     }
