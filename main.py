@@ -38,6 +38,7 @@ class Teste:
                         "tempo": dados_tupla[3]
                     }
                     self.dados.append(resultado)
+                    print(self.dados)
 
 
 if __name__ == "__main__":
@@ -56,6 +57,7 @@ if __name__ == "__main__":
         plt.plot(tamanhos, swaps, marker='o', label=algo)
     plt.xlabel("Tamanho do vetor")
     plt.ylabel("Número de trocas")
+    plt.yscale('log')
     plt.title("Trocas por algoritmo")
     plt.legend()
     plt.grid(True)
@@ -70,6 +72,7 @@ if __name__ == "__main__":
         plt.plot(tamanhos, tempos, marker='o', label=algo)
     plt.xlabel("Tamanho do vetor")
     plt.ylabel("Tempo de execução (s)")
+    plt.yscale('log')
     plt.title("Tempo por algoritmo")
     plt.legend()
     plt.grid(True)
@@ -84,6 +87,7 @@ if __name__ == "__main__":
         plt.plot(tamanhos, comparacoes, marker='o', label=algo)
     plt.xlabel("Tamanho do vetor")
     plt.ylabel("Número de comparações")
+    plt.yscale('log')
     plt.title("Comparações por algoritmo")
     plt.legend()
     plt.grid(True)

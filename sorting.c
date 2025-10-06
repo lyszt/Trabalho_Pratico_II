@@ -46,7 +46,7 @@ void writeSortingData(char* filename, Sort sort) {
         printf("Falhou ao abrir o arquivo '%s'.\n", filename);
         return;
     }
-    printf("Salvando %s - Swaps: %lld - Comparações: %lld", sort.tipo, sort.trocas, sort.comparacoes );
+    printf("\nSalvando %s - Swaps: %lld - Comparações: %lld", sort.tipo, sort.trocas, sort.comparacoes );
     fseek(f, 0, SEEK_END);
     fwrite(&sort, sizeof(Sort), 1, f);
     fclose(f);
