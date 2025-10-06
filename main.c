@@ -45,23 +45,31 @@ int main(){
             vetor_original[j] = rand() % 10000;
         }
 
-        // --- Teste para o Bubble Sort ---
+        //  Teste para o Bubble Sort 
         int *copia_para_bubble = (int *)malloc(tamanho_atual * sizeof(int));
         copia(vetor_original, copia_para_bubble, tamanho_atual); // Usa sua função de cópia
         bubbleSort(copia_para_bubble, tamanho_atual);
         free(copia_para_bubble); // Libera a memória da cópia!
 
-        // --- Teste para o Insertion Sort ---
+        //  Teste para o Insertion Sort 
         int *copia_para_insertion = (int *)malloc(tamanho_atual * sizeof(int));
         copia(vetor_original, copia_para_insertion, tamanho_atual);
-        // insertionSort(copia_para_insertion, tamanho_atual);
+        insertionSort(copia_para_insertion, tamanho_atual);
         free(copia_para_insertion);
 
-        // --- Teste para o Quick Sort ---
+        //  Teste para o Quick Sort 
 
-        // insertion sort
+        int *copia_para_quicksort = (int *)malloc(tamanho_atual * sizeof(int));
+        copia(vetor_original, copia_para_insertion, tamanho_atual);
+        quickSort(copia_para_quicksort, tamanho_atual);
+        free(copia_para_quicksort);
 
-        // quick sort
+        // Selection Sort
+
+        int *copia_para_selection = (int *)malloc(tamanho_atual * sizeof(int));
+        copia(vetor_original, copia_para_insertion, tamanho_atual);
+        selectionSort(copia_para_selection, tamanho_atual);
+        free(copia_para_selection);
     }
 
 

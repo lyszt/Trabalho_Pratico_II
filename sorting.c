@@ -12,6 +12,7 @@ void copia(int *A, int *V, int size){
         V[i] = A[i];
 }
 
+
 // Foi necessário aplicar o packed pra facilitar a leitura pelo python
 // Python espera 26 bytes, mas sem o packed aqui fica 32 bytes
 typedef struct __attribute__((packed)) sort {
@@ -75,4 +76,8 @@ void bubbleSort(int *A, int size) {
     clock_t end = clock();
     double tempo = (double)(end - start) / CLOCKS_PER_SEC;
     writeSortingData("./executions/bubble.bin", createSortItem("bubble", swaps, comparisons, tempo));
+}
+
+void quicksort(int *A, int size) {
+
 }
