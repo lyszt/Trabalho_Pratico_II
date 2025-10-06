@@ -76,3 +76,17 @@ if __name__ == "__main__":
     plt.tight_layout()
     plt.savefig("./graficos/tempo.png")
     plt.close()
+
+    # Gráfico de Comparações
+    plt.figure(figsize=(12, 6))
+    for algo in algos:
+        comparacoes: list = [d["comparacoes"] for d in dados if d["algoritmo"] == algo]
+        plt.plot(tamanhos, comparacoes, marker='o', label=algo)
+    plt.xlabel("Tamanho do vetor")
+    plt.ylabel("Número de comparações")
+    plt.title("Comparações por algoritmo")
+    plt.legend()
+    plt.grid(True)
+    plt.tight_layout()
+    plt.savefig("./graficos/comparacoes.png")
+    plt.close()
