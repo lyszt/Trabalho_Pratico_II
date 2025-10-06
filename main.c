@@ -54,7 +54,7 @@ int main(){
         //  Teste para o Insertion Sort 
         int *copia_para_insertion = (int *)malloc(tamanho_atual * sizeof(int));
         copia(vetor_original, copia_para_insertion, tamanho_atual);
-        insertionSort(copia_para_insertion, tamanho_atual);
+        // insertionSort(copia_para_insertion, tamanho_atual);
         free(copia_para_insertion);
 
         //  Teste para o Quick Sort 
@@ -68,7 +68,7 @@ int main(){
 
         int *copia_para_selection = (int *)malloc(tamanho_atual * sizeof(int));
         copia(vetor_original, copia_para_insertion, tamanho_atual);
-        selectionSort(copia_para_selection, tamanho_atual);
+        // selectionSort(copia_para_selection, tamanho_atual);
         free(copia_para_selection);
     }
 
