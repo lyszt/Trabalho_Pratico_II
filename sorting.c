@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "sorting.h"
 
 
@@ -17,6 +18,7 @@ typedef struct __attribute__((packed)) sort {
     char tipo[10];
     long long trocas;
     long long comparacoes;
+    double tempo;
 } Sort;
 
 // Manipulação de arquivos
@@ -25,10 +27,11 @@ typedef struct __attribute__((packed)) sort {
 
 
 // Cria uma estrutura de sort com os detalhes
-Sort createSortItem(char* tipo, long long swaps, long long comparacoes) {
+Sort createSortItem(char* tipo, long long swaps, long long comparacoes, double tempo) {
     Sort sort;
     sort.trocas = swaps;
     sort.comparacoes = comparacoes;
+    sort.tempo = tempo;
     memset(sort.tipo, 0, sizeof(sort.tipo));
     strncpy(sort.tipo, tipo, sizeof(sort.tipo)-1);
     return sort;
@@ -53,6 +56,8 @@ void writeSortingData(char* filename, Sort sort) {
 void bubbleSort(int *A, int size) {
     long long swaps = 0;
     long long comparisons = 0;
+    clock_t start = clock();
+
     for (long long i = 0; i < size; i++) {
         for (long long j = 0; j < size - i - 1; j++) {
             comparisons++;
@@ -67,5 +72,7 @@ void bubbleSort(int *A, int size) {
     // Toda execução ele escreve no arquivo binário final os dados
     // EX: BUBBLE 6 15
     // Isso vai ser posteriormente lido pela leitura binária do Python
-    writeSortingData("./executions/bubble.bin", createSortItem("bubble", swaps, comparisons));
+    clock_t end = clock();
+    double tempo = (double)(end - start) / CLOCKS_PER_SEC;
+    writeSortingData("./executions/bubble.bin", createSortItem("bubble", swaps, comparisons, tempo));
 }
