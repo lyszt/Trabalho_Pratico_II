@@ -133,3 +133,63 @@ void quickSort(int *A, int size) {
     // Salva os dados no arquivo específico do Quicksort
     writeSortingData("./executions/quicksort.bin", createSortItem("quicksort", swaps, comparisons, tempo));
 }
+
+void copia(int *src, int *dst, int n) {
+    if (src == NULL || dst == NULL) {
+        // Se por algum motivo um ponteiro for NULL, apenas retorna (evita crash).
+        return;
+    }
+    for (int i = 0; i < n; i++) {
+        dst[i] = src[i];
+    }
+}
+
+/* insertionSort:
+ * implementação clássica do Insertion Sort (estável)
+ * arr: ponteiro para o vetor
+ * n: número de elementos
+ */
+void insertionSort(int *arr, int n) {
+    if (arr == NULL || n <= 1) return; // nada a fazer para vetores nulos ou de tamanho 0/1
+
+    for (int i = 1; i < n; i++) {
+        int chave = arr[i];      // valor a ser inserido na posição correta
+        int j = i - 1;           // índice para varrer os anteriores
+
+        // desloca todos os elementos maiores que 'chave' uma posição à direita
+        while (j >= 0 && arr[j] > chave) {
+            arr[j + 1] = arr[j];
+            j = j - 1;
+        }
+
+        // insere a chave na posição correta
+        arr[j + 1] = chave;
+    }
+}
+
+/* selectionSort:
+ * implementação clássica do Selection Sort (não estável)
+ * arr: ponteiro para o vetor
+ * n: número de elementos
+ */
+void selectionSort(int *arr, int n) {
+    if (arr == NULL || n <= 1) return; // nada a fazer para vetores nulos ou de tamanho 0/1
+
+    for (int i = 0; i < n - 1; i++) {
+        int minIndex = i; // assume que o menor está na posição i
+
+        // encontra o índice do menor elemento no restante do vetor
+        for (int j = i + 1; j < n; j++) {
+            if (arr[j] < arr[minIndex]) {
+                minIndex = j;
+            }
+        }
+
+        // troca arr[i] com arr[minIndex] se necessário
+        if (minIndex != i) {
+            int temp = arr[i];
+            arr[i] = arr[minIndex];
+            arr[minIndex] = temp;
+        }
+    }
+}
