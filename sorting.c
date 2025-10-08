@@ -24,9 +24,6 @@ typedef struct __attribute__((packed)) sort {
 
 // Manipulação de arquivos
 
-// Escreve qual modelo de sorting foi usado e quantas trocas e comparações fez
-
-
 // Cria uma estrutura de sort com os detalhes
 Sort createSortItem(char* tipo, long long swaps, long long comparacoes, double tempo) {
     Sort sort;
@@ -75,6 +72,7 @@ void bubbleSort(int *A, int size) {
     // Isso vai ser posteriormente lido pela leitura binária do Python
     clock_t end = clock();
     double tempo = (double)(end - start) / CLOCKS_PER_SEC;
+    // Corrigido para passar a variável 'swaps' que foi usada na função
     writeSortingData("./executions/bubble.bin", createSortItem("bubble", swaps, comparisons, tempo));
 }
 
@@ -134,15 +132,7 @@ void quickSort(int *A, int size) {
     writeSortingData("./executions/quicksort.bin", createSortItem("quicksort", swaps, comparisons, tempo));
 }
 
-void copia(int *src, int *dst, int n) {
-    if (src == NULL || dst == NULL) {
-        // Se por algum motivo um ponteiro for NULL, apenas retorna (evita crash).
-        return;
-    }
-    for (int i = 0; i < n; i++) {
-        dst[i] = src[i];
-    }
-}
+// Parte do vinicius abaixo
 
 /* insertionSort:
  * implementação clássica do Insertion Sort (estável)
@@ -150,21 +140,33 @@ void copia(int *src, int *dst, int n) {
  * n: número de elementos
  */
 void insertionSort(int *arr, int n) {
-    if (arr == NULL || n <= 1) return; // nada a fazer para vetores nulos ou de tamanho 0/1
+    if (arr == NULL || n <= 1) return; // nada a fazer
+
+    long long trocas = 0;
+    long long comparacoes = 0;
+    clock_t start = clock();
 
     for (int i = 1; i < n; i++) {
-        int chave = arr[i];      // valor a ser inserido na posição correta
-        int j = i - 1;           // índice para varrer os anteriores
+        int chave = arr[i];
+        int j = i - 1;
 
-        // desloca todos os elementos maiores que 'chave' uma posição à direita
-        while (j >= 0 && arr[j] > chave) {
+        // Desloca todos os elementos maiores que 'chave' uma posição à direita.
+        // O laço while contém a principal fonte de comparações.
+        while (j >= 0 && (comparacoes++, arr[j] > chave)) {
             arr[j + 1] = arr[j];
+            trocas++; // Cada deslocamento é contado como uma "troca"/movimentação.
             j = j - 1;
         }
 
-        // insere a chave na posição correta
+        // Insere a chave na posição correta.
         arr[j + 1] = chave;
+        // O insertion sort não faz uma "troca" clássica, mas sim uma inserção.
+        // Contamos os deslocamentos como "trocas" para medir a movimentação de dados.
     }
+
+    clock_t end = clock();
+    double tempo = (double)(end - start) / CLOCKS_PER_SEC;
+    writeSortingData("./executions/insertion.bin", createSortItem("insertion", trocas, comparacoes, tempo));
 }
 
 /* selectionSort:
@@ -173,23 +175,33 @@ void insertionSort(int *arr, int n) {
  * n: número de elementos
  */
 void selectionSort(int *arr, int n) {
-    if (arr == NULL || n <= 1) return; // nada a fazer para vetores nulos ou de tamanho 0/1
+    if (arr == NULL || n <= 1) return; // nada a fazer
+
+    long long trocas = 0;
+    long long comparacoes = 0;
+    clock_t start = clock();
 
     for (int i = 0; i < n - 1; i++) {
         int minIndex = i; // assume que o menor está na posição i
 
-        // encontra o índice do menor elemento no restante do vetor
+        // Encontra o índice do menor elemento no restante do vetor
         for (int j = i + 1; j < n; j++) {
+            comparacoes++; // Uma comparação é feita a cada iteração do laço interno.
             if (arr[j] < arr[minIndex]) {
                 minIndex = j;
             }
         }
 
-        // troca arr[i] com arr[minIndex] se necessário
+        // Troca arr[i] com arr[minIndex] se um menor elemento foi encontrado.
         if (minIndex != i) {
             int temp = arr[i];
             arr[i] = arr[minIndex];
             arr[minIndex] = temp;
+            trocas++;
         }
     }
+
+    clock_t end = clock();
+    double tempo = (double)(end - start) / CLOCKS_PER_SEC;
+    writeSortingData("./executions/selection.bin", createSortItem("selection", trocas, comparacoes, tempo));
 }
