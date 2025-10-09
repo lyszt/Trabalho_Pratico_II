@@ -42,6 +42,9 @@ class Teste:
 
 
 if __name__ == "__main__":
+
+    # Logaritmo
+
     # Cria a instância
     test_instance: Teste = Teste()
     dados: List[Dict[str, object]] = test_instance.dados
@@ -62,7 +65,7 @@ if __name__ == "__main__":
     plt.legend()
     plt.grid(True)
     plt.tight_layout()
-    plt.savefig("./graficos/trocas.png")
+    plt.savefig("./graficos/trocas_log.png")
     plt.close()
 
     # Gráfico de Tempo
@@ -77,7 +80,7 @@ if __name__ == "__main__":
     plt.legend()
     plt.grid(True)
     plt.tight_layout()
-    plt.savefig("./graficos/tempo.png")
+    plt.savefig("./graficos/tempo_log.png")
     plt.close()
 
     # Gráfico de Comparações
@@ -88,6 +91,51 @@ if __name__ == "__main__":
     plt.xlabel("Tamanho do vetor")
     plt.ylabel("Número de comparações")
     plt.yscale('log')
+    plt.title("Comparações por algoritmo")
+    plt.legend()
+    plt.grid(True)
+    plt.tight_layout()
+    plt.savefig("./graficos/comparacoes_log.png")
+    plt.close()
+
+    # Gráfico normal
+
+    # Gráfico de Trocas
+    plt.figure(figsize=(12,6))
+    for algo in algos:
+        swaps: list = [d["trocas"] for d in dados if d["algoritmo"] == algo]
+        plt.plot(tamanhos, swaps, marker='o', label=algo)
+    plt.xlabel("Tamanho do vetor")
+    plt.ylabel("Número de trocas")
+    plt.title("Trocas por algoritmo")
+    plt.legend()
+    plt.grid(True)
+    plt.tight_layout()
+    plt.savefig("./graficos/trocas.png")
+    plt.close()
+
+    # Gráfico de Tempo
+    plt.figure(figsize=(12,6))
+    for algo in algos:
+        tempos: list = [d["tempo"] for d in dados if d["algoritmo"] == algo]
+        plt.plot(tamanhos, tempos, marker='o', label=algo)
+    plt.xlabel("Tamanho do vetor")
+    plt.ylabel("Tempo de execução (s)")
+    plt.title("Tempo por algoritmo")
+    plt.legend()
+    plt.grid(True)
+    plt.tight_layout()
+    plt.savefig("./graficos/tempo.png")
+    plt.close()
+
+
+    # Gráfico de Comparações
+    plt.figure(figsize=(12, 6))
+    for algo in algos:
+        comparacoes: list = [d["comparacoes"] for d in dados if d["algoritmo"] == algo]
+        plt.plot(tamanhos, comparacoes, marker='o', label=algo)
+    plt.xlabel("Tamanho do vetor")
+    plt.ylabel("Número de comparações")
     plt.title("Comparações por algoritmo")
     plt.legend()
     plt.grid(True)

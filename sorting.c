@@ -77,7 +77,6 @@ void bubbleSort(int *A, int size) {
 }
 
 
-// --- Implementação do Quicksort ---
 
 // Função auxiliar para trocar dois elementos e contar a troca
 void swap(int* a, int* b, long long* swaps) {
@@ -175,7 +174,8 @@ void insertionSort(int *arr, int n) {
  * n: número de elementos
  */
 void selectionSort(int *arr, int n) {
-    if (arr == NULL || n <= 1) return; // nada a fazer
+
+    if (arr == NULL || n <= 1) return;
 
     long long trocas = 0;
     long long comparacoes = 0;

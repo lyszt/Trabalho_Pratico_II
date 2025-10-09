@@ -47,9 +47,9 @@ int main(){
 
         //  Teste para o Bubble Sort 
         int *copia_para_bubble = (int *)malloc(tamanho_atual * sizeof(int));
-        copia(vetor_original, copia_para_bubble, tamanho_atual); // Usa sua função de cópia
+        copia(vetor_original, copia_para_bubble, tamanho_atual);
         bubbleSort(copia_para_bubble, tamanho_atual);
-        free(copia_para_bubble); // Libera a memória da cópia!
+        free(copia_para_bubble);
 
         //  Teste para o Insertion Sort 
         int *copia_para_insertion = (int *)malloc(tamanho_atual * sizeof(int));
