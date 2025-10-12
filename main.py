@@ -17,10 +17,11 @@ class Teste:
         )
         print(result.stdout)
 
-        arquivos: List[str] = os.listdir("./executions/")
-        formato: str = '<10sqqd'  # 10 bytes string, 2 long long, 1 double
+        arquivos: List[str] = sorted(os.listdir("./executions/"))
+        formato: str = '<10sqqd'
+        # string de 10 bytes, 2 long long, 1 double
         tamanho: int = struct.calcsize(formato)
-        self.dados: List[Dict[str, object]] = []
+        self.dados: Dict[str, List[Dict[str, object]]] = {}
 
         for arquivo in arquivos:
             caminho: str = os.path.join("./executions", arquivo)
@@ -32,113 +33,68 @@ class Teste:
                     dados_tupla: tuple = struct.unpack(formato, chunk)
                     nome_limpo: str = dados_tupla[0].decode('utf-8').strip('\x00')
                     resultado: Dict[str, object] = {
-                        "algoritmo": nome_limpo,
                         "trocas": dados_tupla[1],
                         "comparacoes": dados_tupla[2],
                         "tempo": dados_tupla[3]
                     }
-                    self.dados.append(resultado)
+                    if nome_limpo not in self.dados:
+                        self.dados[nome_limpo] = []
+                    self.dados[nome_limpo].append(resultado)
                     print(self.dados)
 
 
 if __name__ == "__main__":
 
-    # Logaritmo
-
-    # Cria a instância
     test_instance: Teste = Teste()
-    dados: List[Dict[str, object]] = test_instance.dados
+    dados_por_algo: Dict[str, List[Dict[str, object]]] = test_instance.dados
     tamanhos: List[int] = [100, 1000, 5000, 10000, 50000, 100000]
-    algos: list = sorted(set(d["algoritmo"] for d in dados))
+    algos: list = sorted(dados_por_algo.keys())
 
     os.makedirs("./graficos", exist_ok=True)
 
-    # Gráfico de Trocas
-    plt.figure(figsize=(12,6))
+    styles = {
+        'bubble':    {'linestyle': '-',  'marker': 'o', 'color': 'red'},
+        'insertion': {'linestyle': '--', 'marker': 'x', 'color': 'green'},
+        'selection': {'linestyle': ':',  'marker': '^', 'color': 'blue'},
+        'quicksort': {'linestyle': '-.', 'marker': 's', 'color': 'purple'}
+    }
+
+    fig, axes = plt.subplots(3, 1, figsize=(16, 22), sharex=True)
+    fig.suptitle('Análise de Performance de Algoritmos de Ordenação', fontsize=20)
+
     for algo in algos:
-        swaps: list = [d["trocas"] for d in dados if d["algoritmo"] == algo]
-        plt.plot(tamanhos, swaps, marker='o', label=algo)
-    plt.xlabel("Tamanho do vetor")
-    plt.ylabel("Número de trocas")
-    plt.yscale('log')
-    plt.title("Trocas por algoritmo")
-    plt.legend()
-    plt.grid(True)
-    plt.tight_layout()
-    plt.savefig("./graficos/trocas_log.png")
+        style = styles.get(algo, {'linestyle': '-', 'marker': 'o'})
+
+        swaps = [d["trocas"] for d in dados_por_algo[algo]]
+        axes[0].plot(tamanhos, swaps, label=algo, linewidth=2, markersize=8, **style)
+
+        comparacoes = [d["comparacoes"] for d in dados_por_algo[algo]]
+        axes[1].plot(tamanhos, comparacoes, label=algo, linewidth=2, markersize=8, **style)
+
+        tempos = [d["tempo"] for d in dados_por_algo[algo]]
+        axes[2].plot(tamanhos, tempos, label=algo, linewidth=2, markersize=8, **style)
+
+    axes[0].set_yscale('log')
+    axes[0].set_title("Trocas por Algoritmo", fontsize=16)
+    axes[0].set_ylabel("Número de Trocas (Escala Log)", fontsize=14)
+    axes[0].legend(fontsize=12)
+    axes[0].grid(True, which="both", linestyle='--', linewidth=0.5)
+
+    axes[1].set_yscale('log')
+    axes[1].set_title("Comparações por Algoritmo", fontsize=16)
+    axes[1].set_ylabel("Número de Comparações (Escala Log)", fontsize=14)
+    axes[1].legend(fontsize=12)
+    axes[1].grid(True, which="both", linestyle='--', linewidth=0.5)
+
+    axes[2].set_yscale('log')
+    axes[2].set_title("Tempo de Execução por Algoritmo", fontsize=16)
+    axes[2].set_ylabel("Tempo (s) (Escala Log)", fontsize=14)
+    axes[2].set_xlabel("Tamanho do Vetor", fontsize=14)
+    axes[2].legend(fontsize=12)
+    axes[2].grid(True, which="both", linestyle='--', linewidth=0.5)
+
+    plt.tight_layout(rect=[0, 0, 1, 0.96])
+    plt.savefig("./graficos/relatorio_completo.png", dpi=300)
     plt.close()
 
-    # Gráfico de Tempo
-    plt.figure(figsize=(12,6))
-    for algo in algos:
-        tempos: list = [d["tempo"] for d in dados if d["algoritmo"] == algo]
-        plt.plot(tamanhos, tempos, marker='o', label=algo)
-    plt.xlabel("Tamanho do vetor")
-    plt.ylabel("Tempo de execução (s)")
-    plt.yscale('log')
-    plt.title("Tempo por algoritmo")
-    plt.legend()
-    plt.grid(True)
-    plt.tight_layout()
-    plt.savefig("./graficos/tempo_log.png")
-    plt.close()
-
-    # Gráfico de Comparações
-    plt.figure(figsize=(12, 6))
-    for algo in algos:
-        comparacoes: list = [d["comparacoes"] for d in dados if d["algoritmo"] == algo]
-        plt.plot(tamanhos, comparacoes, marker='o', label=algo)
-    plt.xlabel("Tamanho do vetor")
-    plt.ylabel("Número de comparações")
-    plt.yscale('log')
-    plt.title("Comparações por algoritmo")
-    plt.legend()
-    plt.grid(True)
-    plt.tight_layout()
-    plt.savefig("./graficos/comparacoes_log.png")
-    plt.close()
-
-    # Gráfico normal
-
-    # Gráfico de Trocas
-    plt.figure(figsize=(12,6))
-    for algo in algos:
-        swaps: list = [d["trocas"] for d in dados if d["algoritmo"] == algo]
-        plt.plot(tamanhos, swaps, marker='o', label=algo)
-    plt.xlabel("Tamanho do vetor")
-    plt.ylabel("Número de trocas")
-    plt.title("Trocas por algoritmo")
-    plt.legend()
-    plt.grid(True)
-    plt.tight_layout()
-    plt.savefig("./graficos/trocas.png")
-    plt.close()
-
-    # Gráfico de Tempo
-    plt.figure(figsize=(12,6))
-    for algo in algos:
-        tempos: list = [d["tempo"] for d in dados if d["algoritmo"] == algo]
-        plt.plot(tamanhos, tempos, marker='o', label=algo)
-    plt.xlabel("Tamanho do vetor")
-    plt.ylabel("Tempo de execução (s)")
-    plt.title("Tempo por algoritmo")
-    plt.legend()
-    plt.grid(True)
-    plt.tight_layout()
-    plt.savefig("./graficos/tempo.png")
-    plt.close()
-
-
-    # Gráfico de Comparações
-    plt.figure(figsize=(12, 6))
-    for algo in algos:
-        comparacoes: list = [d["comparacoes"] for d in dados if d["algoritmo"] == algo]
-        plt.plot(tamanhos, comparacoes, marker='o', label=algo)
-    plt.xlabel("Tamanho do vetor")
-    plt.ylabel("Número de comparações")
-    plt.title("Comparações por algoritmo")
-    plt.legend()
-    plt.grid(True)
-    plt.tight_layout()
-    plt.savefig("./graficos/comparacoes.png")
-    plt.close()
+    print("\nGráfico 'relatorio_completo.png' foi salvo com sucesso.")
