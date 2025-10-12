@@ -60,14 +60,14 @@ int main(){
         //  Teste para o Quick Sort 
 
         int *copia_para_quicksort = (int *)malloc(tamanho_atual * sizeof(int));
-        copia(vetor_original, copia_para_insertion, tamanho_atual);
+        copia(vetor_original, copia_para_quicksort, tamanho_atual);
         quickSort(copia_para_quicksort, tamanho_atual);
         free(copia_para_quicksort);
 
         // Selection Sort
 
         int *copia_para_selection = (int *)malloc(tamanho_atual * sizeof(int));
-        copia(vetor_original, copia_para_insertion, tamanho_atual);
+        copia(vetor_original, copia_para_selection, tamanho_atual);
         selectionSort(copia_para_selection, tamanho_atual);
         free(copia_para_selection);
     }

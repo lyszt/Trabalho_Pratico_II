@@ -1,0 +1,15 @@
+cmake-build-debug/
+build/
+*.o
+*.bin
+*.exe
+*.out
+
+.idea/
+.vscode/
+*.swp
+
+.venv/
+__pycache__/
+
+graficos/*.png
