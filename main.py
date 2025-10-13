@@ -59,6 +59,7 @@ if __name__ == "__main__":
         'quicksort': {'linestyle': '-.', 'marker': 's', 'color': 'purple'}
     }
 
+    # Gráfico completo com todos os algoritmos
     fig, axes = plt.subplots(3, 1, figsize=(16, 22), sharex=True)
     fig.suptitle('Análise de Performance de Algoritmos de Ordenação', fontsize=20)
 
@@ -98,3 +99,59 @@ if __name__ == "__main__":
     plt.close()
 
     print("\nGráfico 'relatorio_completo.png' foi salvo com sucesso.")
+
+    # Gráfico individual para Trocas (todos algoritmos)
+    plt.figure(figsize=(12, 8))
+    for algo in algos:
+        style = styles.get(algo, {'linestyle': '-', 'marker': 'o'})
+        swaps = [d["trocas"] for d in dados_por_algo[algo]]
+        plt.plot(tamanhos, swaps, label=algo, linewidth=3, markersize=10, **style)
+
+    
+    plt.title("Comparação de Trocas entre Algoritmos", fontsize=16)
+    plt.ylabel("Número de Trocas (Escala Log)", fontsize=14)
+    plt.xlabel("Tamanho do Vetor", fontsize=14)
+    plt.legend(fontsize=12)
+    plt.grid(True, which="both", linestyle='--', linewidth=0.5)
+    plt.tight_layout()
+    plt.savefig("./graficos/trocas_comparacao.png", dpi=300)
+    plt.close()
+    print("Gráfico 'trocas_comparacao.png' foi salvo com sucesso.")
+
+    # Gráfico individual para Comparações (todos algoritmos)
+    plt.figure(figsize=(12, 8))
+    for algo in algos:
+        style = styles.get(algo, {'linestyle': '-', 'marker': 'o'})
+        comparacoes = [d["comparacoes"] for d in dados_por_algo[algo]]
+        plt.plot(tamanhos, comparacoes, label=algo, linewidth=3, markersize=10, **style)
+
+    
+    plt.title("Comparação de Comparações entre Algoritmos", fontsize=16)
+    plt.ylabel("Número de Comparações (Escala Log)", fontsize=14)
+    plt.xlabel("Tamanho do Vetor", fontsize=14)
+    plt.legend(fontsize=12)
+    plt.grid(True, which="both", linestyle='--', linewidth=0.5)
+    plt.tight_layout()
+    plt.savefig("./graficos/comparacoes_comparacao.png", dpi=300)
+    plt.close()
+    print("Gráfico 'comparacoes_comparacao.png' foi salvo com sucesso.")
+
+    # Gráfico individual para Tempo (todos algoritmos)
+    plt.figure(figsize=(12, 8))
+    for algo in algos:
+        style = styles.get(algo, {'linestyle': '-', 'marker': 'o'})
+        tempos = [d["tempo"] for d in dados_por_algo[algo]]
+        plt.plot(tamanhos, tempos, label=algo, linewidth=3, markersize=10, **style)
+
+    
+    plt.title("Comparação de Tempo de Execução entre Algoritmos", fontsize=16)
+    plt.ylabel("Tempo (s) (Escala Log)", fontsize=14)
+    plt.xlabel("Tamanho do Vetor", fontsize=14)
+    plt.legend(fontsize=12)
+    plt.grid(True, which="both", linestyle='--', linewidth=0.5)
+    plt.tight_layout()
+    plt.savefig("./graficos/tempo_comparacao.png", dpi=300)
+    plt.close()
+    print("Gráfico 'tempo_comparacao.png' foi salvo com sucesso.")
+
+    print(f"\nTodos os gráficos foram gerados: 1 completo + 3 individuais (trocas, comparações, tempo).")

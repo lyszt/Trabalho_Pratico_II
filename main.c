@@ -45,7 +45,7 @@ int main(){
             vetor_original[j] = rand() % 10000;
         }
 
-        //  Teste para o Bubble Sort 
+        //  Teste para o Bubble Sort
         int *copia_para_bubble = (int *)malloc(tamanho_atual * sizeof(int));
         copia(vetor_original, copia_para_bubble, tamanho_atual);
         bubbleSort(copia_para_bubble, tamanho_atual);
@@ -57,7 +57,7 @@ int main(){
         insertionSort(copia_para_insertion, tamanho_atual);
         free(copia_para_insertion);
 
-        //  Teste para o Quick Sort 
+        //  Teste para o Quick Sort
 
         int *copia_para_quicksort = (int *)malloc(tamanho_atual * sizeof(int));
         copia(vetor_original, copia_para_quicksort, tamanho_atual);
