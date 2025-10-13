@@ -8,8 +8,8 @@
 
 // Necessário esvaziar os arquivos no inicio da execução
 void clean_files() {
-    char* sorting_algorithms[] = {"bubble", "selection", "insertion", "quicksort"};
-    for (int i = 0; i < 4; i++) {
+    char* sorting_algorithms[] = {"bubble", "selection", "insertion", "quicksort", "heapsort"};
+    for (int i = 0; i < 5; i++) {
         char filename[30];
 
         sprintf(filename, "./executions/%s.bin", sorting_algorithms[i]);
@@ -70,6 +70,12 @@ int main(){
         copia(vetor_original, copia_para_selection, tamanho_atual);
         selectionSort(copia_para_selection, tamanho_atual);
         free(copia_para_selection);
+
+        // Heapsort
+        int *copia_para_heapsort = (int *)malloc(tamanho_atual * sizeof(int));
+        copia(vetor_original, copia_para_heapsort, tamanho_atual);
+        heapSort(copia_para_heapsort, tamanho_atual);
+        free(copia_para_heapsort);
     }
 
 

@@ -269,3 +269,99 @@ void selectionSort(int *arr, int n) {
 
     writeSortingData("./executions/selection.bin", createSortItem("selection", avg_trocas, avg_comparacoes, tempo));
 }
+
+/* heapify:
+ * Função que organiza o heap (árvore)
+ * arr: vetor
+ * n: tamanho do heap
+ * i: posição do nó pai
+ * swaps: contador de trocas
+ * comparisons: contador de comparações
+ */
+void heapify(int *arr, int n, int i, long long *swaps, long long *comparisons) {
+    int maior = i;           // O pai começa como o maior
+    int esquerda = 2 * i + 1;  // Filho da esquerda
+    int direita = 2 * i + 2;   // Filho da direita
+
+    // Verifica se filho da esquerda é maior que o pai
+    if (esquerda < n) {
+        (*comparisons)++;
+        if (arr[esquerda] > arr[maior]) {
+            maior = esquerda;
+        }
+    }
+
+    // Verifica se filho da direita é maior que o atual maior
+    if (direita < n) {
+        (*comparisons)++;
+        if (arr[direita] > arr[maior]) {
+            maior = direita;
+        }
+    }
+
+    // Se o maior não é o pai, troca e continua organizando
+    if (maior != i) {
+        // Troca o pai com o maior filho
+        int temp = arr[i];
+        arr[i] = arr[maior];
+        arr[maior] = temp;
+        (*swaps)++;
+
+        // Organiza a parte que foi afetada pela troca
+        heapify(arr, n, maior, swaps, comparisons);
+    }
+}
+
+/* heapSort:
+ * Algoritmo de ordenação Heap Sort
+ * arr: vetor para ordenar
+ * n: tamanho do vetor
+ * - Organiza o vetor como uma árvore onde cada pai é maior que seus filhos
+ * - Pega o maior elemento (topo da árvore) e coloca no final
+ * - Reorganiza o resto da árvore
+ * - Repete até ordenar tudo
+ */
+void heapSort(int *arr, int n) {
+    if (arr == NULL || n <= 1) return;
+
+    long long total_trocas = 0;
+    long long total_comparacoes = 0;
+    double total_time = 0.0;
+
+    // Executa 3 vezes para obter o tempo médio
+    for (int exec = 0; exec < 3; exec++) {
+        long long trocas = 0;
+        long long comparacoes = 0;
+
+        clock_t start = clock();
+
+        // Organiza o vetor do meio para o início
+        for (int i = n / 2 - 1; i >= 0; i--) {
+            heapify(arr, n, i, &trocas, &comparacoes);
+        }
+
+        // Pega o maior (primeiro) e coloca no final, depois reorganiza
+        for (int i = n - 1; i > 0; i--) {
+            // Move o maior elemento para o final
+            int temp = arr[0];
+            arr[0] = arr[i];
+            arr[i] = temp;
+            trocas++;
+
+            // Reorganiza a árvore sem o elemento que já foi ordenado
+            heapify(arr, i, 0, &trocas, &comparacoes);
+        }
+
+        clock_t end = clock();
+        total_time += (double)(end - start) / CLOCKS_PER_SEC;
+        total_trocas += trocas;
+        total_comparacoes += comparacoes;
+    }
+
+    // Calcula as médias
+    double tempo = total_time / 3.0;
+    long long avg_trocas = total_trocas / 3;
+    long long avg_comparacoes = total_comparacoes / 3;
+
+    writeSortingData("./executions/heapsort.bin", createSortItem("heapsort", avg_trocas, avg_comparacoes, tempo));
+}

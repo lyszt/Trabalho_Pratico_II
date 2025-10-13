@@ -56,7 +56,8 @@ if __name__ == "__main__":
         'bubble':    {'linestyle': '-',  'marker': 'o', 'color': 'red'},
         'insertion': {'linestyle': '--', 'marker': 'x', 'color': 'green'},
         'selection': {'linestyle': ':',  'marker': '^', 'color': 'blue'},
-        'quicksort': {'linestyle': '-.', 'marker': 's', 'color': 'purple'}
+        'quicksort': {'linestyle': '-.', 'marker': 's', 'color': 'purple'},
+        'heapsort':  {'linestyle': '-',  'marker': 'd', 'color': 'orange'}
     }
 
     # Gráfico completo com todos os algoritmos
@@ -107,7 +108,7 @@ if __name__ == "__main__":
         swaps = [d["trocas"] for d in dados_por_algo[algo]]
         plt.plot(tamanhos, swaps, label=algo, linewidth=3, markersize=10, **style)
 
-    
+    plt.yscale('log')
     plt.title("Comparação de Trocas entre Algoritmos", fontsize=16)
     plt.ylabel("Número de Trocas (Escala Log)", fontsize=14)
     plt.xlabel("Tamanho do Vetor", fontsize=14)
@@ -125,7 +126,7 @@ if __name__ == "__main__":
         comparacoes = [d["comparacoes"] for d in dados_por_algo[algo]]
         plt.plot(tamanhos, comparacoes, label=algo, linewidth=3, markersize=10, **style)
 
-    
+    plt.yscale('log')
     plt.title("Comparação de Comparações entre Algoritmos", fontsize=16)
     plt.ylabel("Número de Comparações (Escala Log)", fontsize=14)
     plt.xlabel("Tamanho do Vetor", fontsize=14)
@@ -143,7 +144,7 @@ if __name__ == "__main__":
         tempos = [d["tempo"] for d in dados_por_algo[algo]]
         plt.plot(tamanhos, tempos, label=algo, linewidth=3, markersize=10, **style)
 
-    
+    plt.yscale('log')
     plt.title("Comparação de Tempo de Execução entre Algoritmos", fontsize=16)
     plt.ylabel("Tempo (s) (Escala Log)", fontsize=14)
     plt.xlabel("Tamanho do Vetor", fontsize=14)
