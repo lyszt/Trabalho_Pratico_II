@@ -1,0 +1,1 @@
+latexmk -pdf -pdflatex="pdflatex -interaction=nonstopmode -shell-escape" ./relatorio20240002508.tex
