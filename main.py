@@ -76,21 +76,18 @@ if __name__ == "__main__":
         tempos = [d["tempo"] for d in dados_por_algo[algo]]
         axes[2].plot(tamanhos, tempos, label=algo, linewidth=2, markersize=8, **style)
 
-    axes[0].set_yscale('log')
     axes[0].set_title("Trocas por Algoritmo", fontsize=16)
-    axes[0].set_ylabel("Número de Trocas (Escala Log)", fontsize=14)
+    axes[0].set_ylabel("Número de Trocas", fontsize=14)
     axes[0].legend(fontsize=12)
     axes[0].grid(True, which="both", linestyle='--', linewidth=0.5)
 
-    axes[1].set_yscale('log')
     axes[1].set_title("Comparações por Algoritmo", fontsize=16)
-    axes[1].set_ylabel("Número de Comparações (Escala Log)", fontsize=14)
+    axes[1].set_ylabel("Número de Comparações", fontsize=14)
     axes[1].legend(fontsize=12)
     axes[1].grid(True, which="both", linestyle='--', linewidth=0.5)
 
-    axes[2].set_yscale('log')
     axes[2].set_title("Tempo de Execução por Algoritmo", fontsize=16)
-    axes[2].set_ylabel("Tempo (s) (Escala Log)", fontsize=14)
+    axes[2].set_ylabel("Tempo", fontsize=14)
     axes[2].set_xlabel("Tamanho do Vetor", fontsize=14)
     axes[2].legend(fontsize=12)
     axes[2].grid(True, which="both", linestyle='--', linewidth=0.5)
@@ -108,9 +105,8 @@ if __name__ == "__main__":
         swaps = [d["trocas"] for d in dados_por_algo[algo]]
         plt.plot(tamanhos, swaps, label=algo, linewidth=3, markersize=10, **style)
 
-    plt.yscale('log')
     plt.title("Comparação de Trocas entre Algoritmos", fontsize=16)
-    plt.ylabel("Número de Trocas (Escala Log)", fontsize=14)
+    plt.ylabel("Número de Trocas", fontsize=14)
     plt.xlabel("Tamanho do Vetor", fontsize=14)
     plt.legend(fontsize=12)
     plt.grid(True, which="both", linestyle='--', linewidth=0.5)
@@ -126,9 +122,8 @@ if __name__ == "__main__":
         comparacoes = [d["comparacoes"] for d in dados_por_algo[algo]]
         plt.plot(tamanhos, comparacoes, label=algo, linewidth=3, markersize=10, **style)
 
-    plt.yscale('log')
     plt.title("Comparação de Comparações entre Algoritmos", fontsize=16)
-    plt.ylabel("Número de Comparações (Escala Log)", fontsize=14)
+    plt.ylabel("Número de Comparações", fontsize=14)
     plt.xlabel("Tamanho do Vetor", fontsize=14)
     plt.legend(fontsize=12)
     plt.grid(True, which="both", linestyle='--', linewidth=0.5)
@@ -144,9 +139,8 @@ if __name__ == "__main__":
         tempos = [d["tempo"] for d in dados_por_algo[algo]]
         plt.plot(tamanhos, tempos, label=algo, linewidth=3, markersize=10, **style)
 
-    plt.yscale('log')
     plt.title("Comparação de Tempo de Execução entre Algoritmos", fontsize=16)
-    plt.ylabel("Tempo (s) (Escala Log)", fontsize=14)
+    plt.ylabel("Tempo (s)", fontsize=14)
     plt.xlabel("Tamanho do Vetor", fontsize=14)
     plt.legend(fontsize=12)
     plt.grid(True, which="both", linestyle='--', linewidth=0.5)
